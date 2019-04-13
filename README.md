@@ -1,2 +1,2 @@
-# Doc-Scanner-OpenCV
-Simple Document Scanner using OpenCV
+# DocScanner - OpenCV
+Simple Document Scanner using OpenCV in Unity3D.
