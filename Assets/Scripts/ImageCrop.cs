@@ -10,21 +10,23 @@ public class ImageCrop : MonoBehaviour
     public RawImage warpedImage;
     public Material lineMat;
     public GameObject controlPanel;
+    public GameObject background;
 
     [Header("Point Transforms")]
     public Transform leftTop;
     public Transform rightTop;
     public Transform leftBottom;
     public Transform rightBottom;
-    public Slider valSlider;
-    public Slider brightnessSlider;
-    public Slider contrastSlider;
+    //public Slider valSlider;
+    //public Slider brightnessSlider;
+    //public Slider contrastSlider;
 
 
     static Camera mainCam;
 
 
     CropHandle[] cropHandles;
+    Texture2D croppingTexture;
     //LineRenderer line;
 
     void Awake()
@@ -38,16 +40,21 @@ public class ImageCrop : MonoBehaviour
         //line.loop = true;
         //line.material = lineMat;
         if (!mainCam) mainCam = Camera.main;
-    }
 
-    private void Start()
-    {
-        CropTexture();
+        SetupTexture();
     }
 
     public void CropTexture()
     {
         StartCoroutine(Warping());
+    }
+
+    void SetupTexture()
+    {
+        if (DDOL_Navigation.SavedTexture)
+            targetImage.texture = croppingTexture = DDOL_Navigation.SavedTexture;
+        else
+            StartCoroutine(Capture(croppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
     }
 
     IEnumerator Warping()
@@ -81,10 +88,6 @@ public class ImageCrop : MonoBehaviour
         //Texture2D croppedTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
 
         //yield return StartCoroutine(Capture(croppedTexture, cropRect));
-
-        Texture2D croppingTexture = DDOL_Navigation.SavedTexture;
-
-        targetImage.texture = croppingTexture;
 
         Mat mainMat = new Mat(Screen.height, Screen.width, CvType.CV_8UC3);
 
@@ -141,6 +144,8 @@ public class ImageCrop : MonoBehaviour
         warpedImage.SetNativeSize();
         warpedImage.material.mainTexture = finalTexture;
 
+        warpedImage.rectTransform.sizeDelta = new Vector2(Screen.width * .8f, Screen.height * .8f);
+        background.SetActive(true);
         warpedImage.gameObject.SetActive(true);
 
         Debug.LogFormat("Min X: {0}, Min Y: {1}\nMax X: {2}, Max Y: {3}\nWidth: {4}, Height: {5}", minValX, minValY, maxValX, maxValY, maxValX - minValX, maxValY - minValY);
