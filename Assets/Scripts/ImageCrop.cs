@@ -27,18 +27,10 @@ public class ImageCrop : MonoBehaviour
 
     CropHandle[] cropHandles;
     Texture2D croppingTexture;
-    //LineRenderer line;
 
     void Awake()
     {
         cropHandles = FindObjectsOfType<CropHandle>();
-        //line = gameObject.AddComponent<LineRenderer>();
-        //line.endWidth = line.startWidth = .1f;
-        //line.numCornerVertices = line.numCapVertices = 90;
-        //line.positionCount = 0;
-        //lineMat.color = Color.cyan;
-        //line.loop = true;
-        //line.material = lineMat;
         if (!mainCam) mainCam = Camera.main;
 
         SetupTexture();
@@ -46,7 +38,7 @@ public class ImageCrop : MonoBehaviour
 
     public void CropTexture()
     {
-        StartCoroutine(Warping());
+        StartCoroutine(Cropping());
     }
 
     void SetupTexture()
@@ -57,7 +49,7 @@ public class ImageCrop : MonoBehaviour
             StartCoroutine(Capture(croppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
     }
 
-    IEnumerator Warping()
+    IEnumerator Cropping()
     {
         float minValX, minValY, maxValX, maxValY;
         minValX = minValY = float.MaxValue;
@@ -73,21 +65,6 @@ public class ImageCrop : MonoBehaviour
             if (handlePos.x > maxValX) maxValX = handlePos.x;
             if (handlePos.y > maxValY) maxValY = handlePos.y;
         }
-
-        //float width = maxValX - minValX;
-        //float height = maxValY - minValY;
-
-        //UnityEngine.Rect cropRect = new UnityEngine.Rect(minValX, minValY, maxValX, maxValY);
-
-        //Texture2D croppedTexture = new Texture2D((int)(maxValX - minValX), (int)(maxValY - minValY), TextureFormat.RGB24, false);
-
-        //StartCoroutine(Capture(croppedTexture, cropRect));
-
-        //UnityEngine.Rect cropRect = new UnityEngine.Rect(0, 0, Screen.width, Screen.height);
-
-        //Texture2D croppedTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-
-        //yield return StartCoroutine(Capture(croppedTexture, cropRect));
 
         Mat mainMat = new Mat(Screen.height, Screen.width, CvType.CV_8UC3);
 
@@ -141,10 +118,9 @@ public class ImageCrop : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         warpedImage.texture = finalTexture;
-        warpedImage.SetNativeSize();
         warpedImage.material.mainTexture = finalTexture;
 
-        warpedImage.rectTransform.sizeDelta = new Vector2(Screen.width * .8f, Screen.height * .8f);
+        //warpedImage.rectTransform.sizeDelta = new Vector2(Screen.width * .8f, Screen.height * .8f);
         background.SetActive(true);
         warpedImage.gameObject.SetActive(true);
 
@@ -154,7 +130,6 @@ public class ImageCrop : MonoBehaviour
     //public void DrawCropSection()
     //{
     //    line.positionCount = 0;
-
     //    List<Vector3> points = new List<Vector3>();
     //    if (cropHandles.Length > 1)
     //    {

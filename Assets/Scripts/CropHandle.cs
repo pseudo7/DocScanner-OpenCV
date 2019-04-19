@@ -5,6 +5,9 @@ using UnityEngine;
 public class CropHandle : MonoBehaviour
 {
     [SerializeField] PointerType pointerType;
+/// <summary>
+/// Make sure to put Canvas to Screen Space - Overlay
+/// </summary>
     public void Drag()
     {
         transform.position = Input.mousePosition + PointerOffset * Screen.width / 40;
