@@ -14,8 +14,8 @@ public class WarpController : MonoBehaviour
     const float WIDTH = 1000;
     const float HEIGHT = 600;
 
-    const float X_PADDING = 50;
-    const float Y_PADDING = 50;
+    const float X_PADDING = 150;
+    const float Y_PADDING = 150;
 
     const float X_OFFSET = 150;
     const float Y_OFFSET = 150;
@@ -27,7 +27,13 @@ public class WarpController : MonoBehaviour
 
     public void UpdateHandlers()
     {
+        //Debug.LogFormat("Width: {0}, Height: {1}", WIDTH, HEIGHT);
+        //Debug.LogFormat("X Padding: {0}, Y Padding: {1}", X_PADDING, Y_PADDING);
+        //Debug.LogFormat("X Offset: {0}, Y Offset: {1}", X_OFFSET, Y_OFFSET);
+
+        warpedImage.rectTransform.position = new Vector2(X_PADDING, Screen.height - Y_PADDING);
         warpedImage.rectTransform.sizeDelta = new Vector2(WIDTH, HEIGHT);
+
         widthHandle.position = new Vector3(X_PADDING + WIDTH, Screen.height - (Y_PADDING + HEIGHT + Y_OFFSET));
         heightHandle.position = new Vector3(X_PADDING + WIDTH + X_OFFSET, Screen.height - (Y_PADDING + HEIGHT));
     }

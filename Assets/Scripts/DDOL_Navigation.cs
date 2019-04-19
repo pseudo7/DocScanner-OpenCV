@@ -8,7 +8,6 @@ public class DDOL_Navigation : MonoBehaviour
 {
     public static DDOL_Navigation Instance;
 
-
     public Texture2D testingTexture;
     public StreamManager streamManager;
     public GameObject controlsParent;
@@ -41,7 +40,6 @@ public class DDOL_Navigation : MonoBehaviour
         capturedImage.texture = capturedTexture;
         capturedImage.gameObject.SetActive(true);
         SavedTexture = capturedTexture;
-
     }
 
     public void ScanDocument()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResizeHandle : MonoBehaviour
 {
-    [SerializeField] ResizeHandleType resizeHandle;
+    [SerializeField] ResizeHandleType resizeHandle = ResizeHandleType.NONE;
 
     public void Drag()
     {

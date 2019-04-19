@@ -6,11 +6,13 @@ using OpenCVForUnity;
 
 public class ImageCrop : MonoBehaviour
 {
+    [Header("UI Components")]
+    public CanvasScaler canvasScaler;
     public RawImage targetImage;
     public RawImage warpedImage;
     public Material lineMat;
-    public GameObject controlPanel;
-    public GameObject background;
+    public GameObject cropControlPanel;
+    public GameObject warpControlPanel;
 
     [Header("Point Transforms")]
     public Transform leftTop;
@@ -21,19 +23,14 @@ public class ImageCrop : MonoBehaviour
     //public Slider brightnessSlider;
     //public Slider contrastSlider;
 
-
     static Camera mainCam;
 
-
-    CropHandle[] cropHandles;
     Texture2D croppingTexture;
 
     void Awake()
     {
-        cropHandles = FindObjectsOfType<CropHandle>();
         if (!mainCam) mainCam = Camera.main;
-
-        SetupTexture();
+        SetupFrame();
     }
 
     public void CropTexture()
@@ -41,8 +38,10 @@ public class ImageCrop : MonoBehaviour
         StartCoroutine(Cropping());
     }
 
-    void SetupTexture()
+    void SetupFrame()
     {
+        canvasScaler.referenceResolution = new Vector2(Screen.width, Screen.height);
+
         if (DDOL_Navigation.SavedTexture)
             targetImage.texture = croppingTexture = DDOL_Navigation.SavedTexture;
         else
@@ -51,21 +50,6 @@ public class ImageCrop : MonoBehaviour
 
     IEnumerator Cropping()
     {
-        float minValX, minValY, maxValX, maxValY;
-        minValX = minValY = float.MaxValue;
-        maxValX = maxValY = float.MinValue;
-
-        foreach (CropHandle handle in cropHandles)
-        {
-            Vector3 handlePos = handle.transform.position;
-
-            if (handlePos.x < minValX) minValX = handlePos.x;
-            if (handlePos.y < minValY) minValY = handlePos.y;
-
-            if (handlePos.x > maxValX) maxValX = handlePos.x;
-            if (handlePos.y > maxValY) maxValY = handlePos.y;
-        }
-
         Mat mainMat = new Mat(Screen.height, Screen.width, CvType.CV_8UC3);
 
         Utils.texture2DToMat(croppingTexture, mainMat);
@@ -102,8 +86,8 @@ public class ImageCrop : MonoBehaviour
 
         //Imgproc.GaussianBlur(warpedMat, warpedMat, new Size(-50, -50), 0);
 
-        //warpedMat *= contrastSlider.value;
-        //warpedMat += Scalar.all((int)brightnessSlider.value);
+        //warpedMat *= .75f;
+        //warpedMat += Scalar.all(30);
 
         //Imgproc.threshold(warpedMat, warpedMat, (int)valSlider.value, 255, Imgproc.THRESH_BINARY);
 
@@ -120,11 +104,8 @@ public class ImageCrop : MonoBehaviour
         warpedImage.texture = finalTexture;
         warpedImage.material.mainTexture = finalTexture;
 
-        //warpedImage.rectTransform.sizeDelta = new Vector2(Screen.width * .8f, Screen.height * .8f);
-        background.SetActive(true);
-        warpedImage.gameObject.SetActive(true);
+        warpControlPanel.SetActive(true);
 
-        Debug.LogFormat("Min X: {0}, Min Y: {1}\nMax X: {2}, Max Y: {3}\nWidth: {4}, Height: {5}", minValX, minValY, maxValX, maxValY, maxValX - minValX, maxValY - minValY);
     }
 
     //public void DrawCropSection()
@@ -144,11 +125,11 @@ public class ImageCrop : MonoBehaviour
 
     IEnumerator Capture(Texture2D capturedTexture, UnityEngine.Rect rect)
     {
-        controlPanel.SetActive(false);
+        cropControlPanel.SetActive(false);
         yield return new WaitForEndOfFrame();
         capturedTexture.ReadPixels(rect, 0, 0);
         capturedTexture.Apply();
-        controlPanel.SetActive(true);
+        cropControlPanel.SetActive(true);
     }
 
 }
