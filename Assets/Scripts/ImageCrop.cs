@@ -10,6 +10,7 @@ public class ImageCrop : MonoBehaviour
     public CanvasScaler canvasScaler;
     public RawImage targetImage;
     public RawImage warpedImage;
+    public RawImage filteredImage;
     public Material lineMat;
     public GameObject cropControlPanel;
     public GameObject warpControlPanel;
@@ -19,9 +20,6 @@ public class ImageCrop : MonoBehaviour
     public Transform rightTop;
     public Transform leftBottom;
     public Transform rightBottom;
-    //public Slider valSlider;
-    //public Slider brightnessSlider;
-    //public Slider contrastSlider;
 
     static Camera mainCam;
 
@@ -82,19 +80,6 @@ public class ImageCrop : MonoBehaviour
 
         Imgproc.warpPerspective(mainMat, warpedMat, M, new Size(Screen.width, Screen.height));
 
-        Imgproc.cvtColor(warpedMat, warpedMat, Imgproc.COLOR_BGR2GRAY);
-
-        //Imgproc.GaussianBlur(warpedMat, warpedMat, new Size(-50, -50), 0);
-
-        //warpedMat *= .75f;
-        //warpedMat += Scalar.all(30);
-
-        //Imgproc.threshold(warpedMat, warpedMat, (int)valSlider.value, 255, Imgproc.THRESH_BINARY);
-
-        Imgproc.adaptiveThreshold(warpedMat, warpedMat, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 11, 2);
-
-        //warpedMat.convertTo(warpedMat, CvType.CV_8UC3);
-
         Texture2D finalTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
 
         Utils.matToTexture2D(warpedMat, finalTexture);
@@ -102,26 +87,67 @@ public class ImageCrop : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         warpedImage.texture = finalTexture;
-        warpedImage.material.mainTexture = finalTexture;
-
         warpControlPanel.SetActive(true);
-
     }
 
-    //public void DrawCropSection()
-    //{
-    //    line.positionCount = 0;
-    //    List<Vector3> points = new List<Vector3>();
-    //    if (cropHandles.Length > 1)
-    //    {
-    //        foreach (CropHandle handle in cropHandles)
-    //        {
-    //            points.Add(mainCam.ScreenToWorldPoint(handle.transform.position) - mainCam.transform.position);
-    //        }
-    //    }
-    //    line.positionCount = points.Count;
-    //    line.SetPositions(points.ToArray());
-    //}
+    public void ColorEnhanced()
+    {
+        Texture2D warpedTexture = new Texture2D(warpedImage.mainTexture.width, warpedImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(warpedImage.texture, warpedTexture);
+
+        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC4);
+        Utils.texture2DToMat(warpedTexture, initMat);
+
+        initMat *= 1.25f;
+        initMat += Scalar.all(30);
+
+        Utils.matToTexture2D(initMat, warpedTexture);
+        filteredImage.texture = warpedTexture;
+    }
+
+    public void GrayScaled()
+    {
+        Texture2D warpedTexture = new Texture2D(warpedImage.mainTexture.width, warpedImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(warpedImage.texture, warpedTexture);
+
+        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC4);
+        Utils.texture2DToMat(warpedTexture, initMat);
+
+        Imgproc.cvtColor(initMat, initMat, Imgproc.COLOR_BGR2GRAY);
+
+        Utils.matToTexture2D(initMat, warpedTexture);
+        filteredImage.texture = warpedTexture;
+    }
+
+    public void BlackAndWhite()
+    {
+        Texture2D warpedTexture = new Texture2D(warpedImage.mainTexture.width, warpedImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(warpedImage.texture, warpedTexture);
+
+        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC4);
+        Utils.texture2DToMat(warpedTexture, initMat);
+
+        Imgproc.cvtColor(initMat, initMat, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.threshold(initMat, initMat, 127, 255, Imgproc.THRESH_BINARY);
+
+        Utils.matToTexture2D(initMat, warpedTexture);
+        filteredImage.texture = warpedTexture;
+    }
+
+    public void EdgedWhite()
+    {
+        Texture2D warpedTexture = new Texture2D(warpedImage.mainTexture.width, warpedImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(warpedImage.texture, warpedTexture);
+
+        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC4);
+        Utils.texture2DToMat(warpedTexture, initMat);
+
+        Imgproc.cvtColor(initMat, initMat, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.adaptiveThreshold(initMat, initMat, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 11, 2);
+
+        Utils.matToTexture2D(initMat, warpedTexture);
+        filteredImage.texture = warpedTexture;
+    }
 
     IEnumerator Capture(Texture2D capturedTexture, UnityEngine.Rect rect)
     {
