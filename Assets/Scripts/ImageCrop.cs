@@ -103,6 +103,7 @@ public class ImageCrop : MonoBehaviour
 
         Utils.matToTexture2D(initMat, warpedTexture);
         filteredImage.texture = warpedTexture;
+        filteredImage.gameObject.SetActive(true);
     }
 
     public void GrayScaled()
@@ -117,6 +118,7 @@ public class ImageCrop : MonoBehaviour
 
         Utils.matToTexture2D(initMat, warpedTexture);
         filteredImage.texture = warpedTexture;
+        filteredImage.gameObject.SetActive(true);
     }
 
     public void BlackAndWhite()
@@ -132,6 +134,7 @@ public class ImageCrop : MonoBehaviour
 
         Utils.matToTexture2D(initMat, warpedTexture);
         filteredImage.texture = warpedTexture;
+        filteredImage.gameObject.SetActive(true);
     }
 
     public void EdgedWhite()
@@ -147,6 +150,7 @@ public class ImageCrop : MonoBehaviour
 
         Utils.matToTexture2D(initMat, warpedTexture);
         filteredImage.texture = warpedTexture;
+        filteredImage.gameObject.SetActive(true);
     }
 
     IEnumerator Capture(Texture2D capturedTexture, UnityEngine.Rect rect)

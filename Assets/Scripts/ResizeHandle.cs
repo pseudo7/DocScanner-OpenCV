@@ -11,10 +11,13 @@ public class ResizeHandle : MonoBehaviour
         switch (resizeHandle)
         {
             case ResizeHandleType.WIDTH:
-                transform.position = new Vector3(Input.mousePosition.x, transform.position.y);
+                transform.position = new Vector3(Mathf.Clamp(Input.mousePosition.x,
+                    WarpController.X_PADDING, WarpController.X_PADDING + WarpController.WIDTH),
+                    transform.position.y);
                 break;
             case ResizeHandleType.HEIGHT:
-                transform.position = new Vector3(transform.position.x, Input.mousePosition.y);
+                transform.position = new Vector3(transform.position.x, Mathf.Clamp(Input.mousePosition.y,
+                Screen.height - (WarpController.HEIGHT + WarpController.Y_PADDING), Screen.height - WarpController.Y_PADDING));
                 break;
         }
     }
