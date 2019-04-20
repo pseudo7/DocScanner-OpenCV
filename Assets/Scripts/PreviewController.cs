@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 using OpenCVForUnity;
 public class PreviewController : MonoBehaviour
 {
@@ -71,6 +73,26 @@ public class PreviewController : MonoBehaviour
         previewRawImage.texture = warpedTexture;
     }
 
+    public void SaveTextureToDisk()
+    {
+        Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
+
+        string path = Path.Combine(Application.persistentDataPath, "Pseudo");
+
+        Debug.Log("Directory: " + path);
+
+        if (Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
+        {
+            byte[] textureData = warpedTexture.EncodeToPNG();
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            string filePath = Path.Combine(path, System.DateTime.Now.Ticks + ".PNG");
+            File.WriteAllBytes(filePath, textureData);
+            Debug.Log("File: " + filePath);
+        }
+        else Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+    }
+
     public void ResetTexture()
     {
         Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
@@ -98,7 +120,7 @@ public class PreviewController : MonoBehaviour
             }
         }
 
-        Texture2D rotatedTexture = new Texture2D(h, w);
+        Texture2D rotatedTexture = new Texture2D(h, w, TextureFormat.RGB24, false);
         rotatedTexture.SetPixels32(rotated);
         rotatedTexture.Apply();
         return rotatedTexture;
