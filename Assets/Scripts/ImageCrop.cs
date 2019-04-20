@@ -106,6 +106,15 @@ public class ImageCrop : MonoBehaviour
         filteredImage.gameObject.SetActive(true);
     }
 
+    public void OrignalTexture()
+    {
+        Texture2D warpedTexture = new Texture2D(warpedImage.mainTexture.width, warpedImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(warpedImage.texture, warpedTexture);
+
+        filteredImage.texture = warpedTexture;
+        filteredImage.gameObject.SetActive(true);
+    }
+
     public void GrayScaled()
     {
         Texture2D warpedTexture = new Texture2D(warpedImage.mainTexture.width, warpedImage.mainTexture.height, TextureFormat.RGB24, false);

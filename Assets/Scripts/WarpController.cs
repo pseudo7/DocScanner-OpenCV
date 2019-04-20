@@ -13,10 +13,10 @@ public class WarpController : MonoBehaviour
     Vector2 origSizeDelta;
 
     public const float WIDTH = 750;
-    public const float HEIGHT = 450;
+    public static float HEIGHT = WIDTH * (Screen.height / (float)Screen.width);
 
     const float FILTER_WIDTH = 500;
-    const float FILTER_HEIGHT = 300;
+    static float FILTER_HEIGHT = FILTER_WIDTH * (Screen.height / (float)Screen.width);
 
     public const float X_PADDING = 150;
     public const float Y_PADDING = 50;
@@ -24,9 +24,21 @@ public class WarpController : MonoBehaviour
     public const float X_OFFSET = 100;
     public const float Y_OFFSET = 100;
 
+    public static float DeltaWidth { private set; get; }
+    public static float DeltaHeight { private set; get; }
+
+    void Start()
+    {
+        DeltaHeight = DeltaWidth = 1;
+    }
+
     public void ResizeImage()
     {
         warpedImage.rectTransform.sizeDelta = new Vector2(widthHandle.position.x - X_PADDING, Screen.height - (heightHandle.position.y + Y_PADDING));
+        DeltaWidth = warpedImage.rectTransform.rect.width / WIDTH;
+        DeltaHeight = warpedImage.rectTransform.rect.height / HEIGHT;
+
+        filteredImage.rectTransform.sizeDelta = new Vector2(FILTER_WIDTH * DeltaWidth, FILTER_HEIGHT * DeltaHeight);
     }
 
     public void UpdateHandlers()
