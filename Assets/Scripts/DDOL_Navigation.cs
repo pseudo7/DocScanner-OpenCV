@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 
 public class DDOL_Navigation : MonoBehaviour
 {
     public static DDOL_Navigation Instance;
 
+    public GameObject blocker;
     public Texture2D testingTexture;
     public StreamManager streamManager;
     public GameObject controlsParent;
@@ -17,6 +19,8 @@ public class DDOL_Navigation : MonoBehaviour
 
     void Awake()
     {
+        blocker.SetActive(!Permission.HasUserAuthorizedPermission(Permission.Camera));
+
         if (!Instance)
         {
             Instance = this;
@@ -29,6 +33,11 @@ public class DDOL_Navigation : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public void CaptureTexture()

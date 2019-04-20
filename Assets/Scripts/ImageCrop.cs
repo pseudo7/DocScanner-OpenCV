@@ -99,7 +99,7 @@ public class ImageCrop : MonoBehaviour
         Utils.texture2DToMat(warpedTexture, initMat);
 
         initMat *= 1.25f;
-        initMat += Scalar.all(30);
+        initMat += Scalar.all(15);
 
         Utils.matToTexture2D(initMat, warpedTexture);
         filteredImage.texture = warpedTexture;
