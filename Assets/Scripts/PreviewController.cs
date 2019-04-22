@@ -73,7 +73,7 @@ public class PreviewController : MonoBehaviour
         Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
 
-        string path = Path.Combine("/storage/emulated/0/DCIM", "Pseudo");
+        string path = GetStorageDirectory();
 
         Debug.Log("Directory: " + path);
 
@@ -83,10 +83,11 @@ public class PreviewController : MonoBehaviour
         {
             byte[] textureData = warpedTexture.EncodeToPNG();
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            string filePath = Path.Combine(path, System.DateTime.Now.Ticks + ".PNG");
+            string fileName = System.DateTime.Now.Ticks + ".PNG";
+            string filePath = Path.Combine(path, fileName);
             File.WriteAllBytes(filePath, textureData);
             Debug.Log("File: " + filePath);
-            ScanMedia(filePath);
+            ScanMedia(fileName);
         }
         else Permission.RequestUserPermission(Permission.ExternalStorageWrite);
     }
@@ -103,10 +104,19 @@ public class PreviewController : MonoBehaviour
         using (AndroidJavaClass jcEnvironment = new AndroidJavaClass("android.os.Environment"))
         using (AndroidJavaObject joExDir = jcEnvironment.CallStatic<AndroidJavaObject>("getExternalStorageDirectory"))
         {
-            string path = joExDir.Call<string>("toString") + "/DCIM/Camera/" + fileName;
+            string path = joExDir.Call<string>("toString") + "/DCIM/Pseudo/" + fileName;
             Debug.Log("search path : " + path);
             jcMediaScannerConnection.CallStatic("scanFile", joContext, new string[] { path }, new string[] { "image/png" }, null);
         }
+    }
+
+    string GetStorageDirectory()
+    {
+        if (Application.platform != RuntimePlatform.Android)
+            return Application.persistentDataPath;
+        using (AndroidJavaClass jcEnvironment = new AndroidJavaClass("android.os.Environment"))
+        using (AndroidJavaObject joExDir = jcEnvironment.CallStatic<AndroidJavaObject>("getExternalStorageDirectory"))
+            return joExDir.Call<string>("toString") + "/DCIM/Pseudo/";
     }
 
     public void ResetTexture()
