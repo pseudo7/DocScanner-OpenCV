@@ -7,6 +7,7 @@ public class StreamManager : MonoBehaviour
 {
     public RawImage background;
     public AspectRatioFitter fitter;
+    public AspectRatioFitter.AspectMode aspectMode = AspectRatioFitter.AspectMode.FitInParent;
 
     [Range(1, 100)]
     public int camQuality = 20;
@@ -39,7 +40,7 @@ public class StreamManager : MonoBehaviour
             return;
         }
 
-        fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+        fitter.aspectMode = aspectMode;
 
         WebCam.Play();
         background.texture = WebCam;

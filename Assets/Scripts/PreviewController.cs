@@ -11,11 +11,6 @@ public class PreviewController : MonoBehaviour
     public RawImage previewRawImage;
     public AspectRatioFitter ratioFitter;
 
-    void Start()
-    {
-
-    }
-
     public void ShowPreview()
     {
         int width = filteredRawImage.mainTexture.width;
@@ -78,9 +73,11 @@ public class PreviewController : MonoBehaviour
         Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
 
-        string path = Path.Combine(Application.persistentDataPath, "Pseudo");
+        string path = Path.Combine("/storage/emulated/0/DCIM", "Pseudo");
 
         Debug.Log("Directory: " + path);
+
+        Debug.LogWarning("External Permission: " + Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite));
 
         if (Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
         {
@@ -89,15 +86,32 @@ public class PreviewController : MonoBehaviour
             string filePath = Path.Combine(path, System.DateTime.Now.Ticks + ".PNG");
             File.WriteAllBytes(filePath, textureData);
             Debug.Log("File: " + filePath);
+            ScanMedia(filePath);
         }
         else Permission.RequestUserPermission(Permission.ExternalStorageWrite);
     }
 
+
+    void ScanMedia(string fileName)
+    {
+        if (Application.platform != RuntimePlatform.Android)
+            return;
+        using (AndroidJavaClass jcUnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        using (AndroidJavaObject joActivity = jcUnityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+        using (AndroidJavaObject joContext = joActivity.Call<AndroidJavaObject>("getApplicationContext"))
+        using (AndroidJavaClass jcMediaScannerConnection = new AndroidJavaClass("android.media.MediaScannerConnection"))
+        using (AndroidJavaClass jcEnvironment = new AndroidJavaClass("android.os.Environment"))
+        using (AndroidJavaObject joExDir = jcEnvironment.CallStatic<AndroidJavaObject>("getExternalStorageDirectory"))
+        {
+            string path = joExDir.Call<string>("toString") + "/DCIM/Camera/" + fileName;
+            Debug.Log("search path : " + path);
+            jcMediaScannerConnection.CallStatic("scanFile", joContext, new string[] { path }, new string[] { "image/png" }, null);
+        }
+    }
+
     public void ResetTexture()
     {
-        Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
-        Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
-        previewRawImage.texture = warpedTexture;
+        ShowPreview();
     }
 
     Texture2D RotateTexture(Texture2D originalTexture, bool clockwise)

@@ -13,9 +13,8 @@ public class ResultPopulator : MonoBehaviour
 
     void Start()
     {
-        //baseTexture = DDOL_Navigation.SavedTexture;
         resultImage.texture = Scanner.Instance.Scan(baseTexture);
-        grayImage.texture = baseTexture; //Scanner.Instance.ScanTesting(baseTexture);
+        grayImage.texture = baseTexture; 
     }
 
     private void Update()
