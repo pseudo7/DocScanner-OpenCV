@@ -12,15 +12,23 @@ public class CropHandle : MonoBehaviour
     static float xUpper;
     static float xLower;
 
-    const int PADDING = 100;
+    static ImageCrop imageCrop;
 
-    float origZRotation;
+    const int PADDING = 100;
+    const int RADIUS = 100;
+
     bool insideXPadding;
     bool insideYPadding;
 
+    Texture2D sourceTexture;
+    void Awake()
+    {
+        if (!imageCrop) imageCrop = FindObjectOfType<ImageCrop>();
+    }
+
     void Start()
     {
-        origZRotation = transform.eulerAngles.z;
+        if (!sourceTexture) sourceTexture = ImageCrop.CroppingTexture;
 
         if (!areValuesSet)
         {
@@ -42,6 +50,12 @@ public class CropHandle : MonoBehaviour
         MousePosition = Input.mousePosition;
         transform.position = MousePosition + PointerOffset * Screen.width / 40;
         CheckConstaints();
+        UpdateClipTexture();
+    }
+
+    public void UpdateClipTexture()
+    {
+        imageCrop.UpdateClippedTexture(GetTextureAroundPoint(transform.GetChild(0).position));
     }
 
     /// <summary>
@@ -82,6 +96,14 @@ public class CropHandle : MonoBehaviour
         if (insideXPadding && insideYPadding)
             transform.localEulerAngles = new Vector3(0, 0, 0);
 
+    }
+
+    Texture2D GetTextureAroundPoint(Vector2 center)
+    {
+        Texture2D clippedTexture = new Texture2D(RADIUS, RADIUS);
+        clippedTexture.SetPixels(sourceTexture.GetPixels((int)center.x - RADIUS / 2, (int)center.y - RADIUS / 2, RADIUS, RADIUS));
+        clippedTexture.Apply();
+        return clippedTexture;
     }
 
     Vector3 PointerOffset

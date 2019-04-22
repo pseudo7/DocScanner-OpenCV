@@ -11,6 +11,7 @@ public class ImageCrop : MonoBehaviour
     public RawImage targetImage;
     public RawImage warpedImage;
     public RawImage filteredImage;
+    public RawImage clippedImage;
     public Material lineMat;
     public GameObject cropControlPanel;
     public GameObject warpControlPanel;
@@ -23,12 +24,17 @@ public class ImageCrop : MonoBehaviour
 
     static Camera mainCam;
 
-    Texture2D croppingTexture;
+    public static Texture2D CroppingTexture { private set; get; }
 
     void Awake()
     {
         if (!mainCam) mainCam = Camera.main;
         SetupFrame();
+    }
+
+    public void UpdateClippedTexture(Texture2D texture)
+    {
+        clippedImage.texture = texture;
     }
 
     public void CropTexture()
@@ -41,16 +47,16 @@ public class ImageCrop : MonoBehaviour
         canvasScaler.referenceResolution = new Vector2(Screen.width, Screen.height);
 
         if (DDOL_Navigation.SavedTexture)
-            targetImage.texture = croppingTexture = DDOL_Navigation.SavedTexture;
+            targetImage.texture = CroppingTexture = DDOL_Navigation.SavedTexture;
         else
-            StartCoroutine(Capture(croppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
+            StartCoroutine(Capture(CroppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
     }
 
     IEnumerator Cropping()
     {
         Mat mainMat = new Mat(Screen.height, Screen.width, CvType.CV_8UC3);
 
-        Utils.texture2DToMat(croppingTexture, mainMat);
+        Utils.texture2DToMat(CroppingTexture, mainMat);
 
         List<Point> srcPoints = new List<Point>
         {
