@@ -6,9 +6,12 @@ using OpenCVForUnity;
 
 public class ImageCrop : MonoBehaviour
 {
+    [Header("Target Image")]
+    public RawImage targetImage;
+    public AspectRatioFitter targetRatioFitter;
+
     [Header("UI Components")]
     public CanvasScaler canvasScaler;
-    public RawImage targetImage;
     public RawImage warpedImage;
     public RawImage filteredImage;
     public RawImage clippedImage;
@@ -47,9 +50,13 @@ public class ImageCrop : MonoBehaviour
         canvasScaler.referenceResolution = new Vector2(Screen.width, Screen.height);
 
         if (DDOL_Navigation.SavedTexture)
+        {
             targetImage.texture = CroppingTexture = DDOL_Navigation.SavedTexture;
-        else
-            StartCoroutine(Capture(CroppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
+            targetRatioFitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+            targetRatioFitter.aspectRatio = StreamManager.WebcamSize.x / (float)StreamManager.WebcamSize.y;
+        }
+        else Debug.LogError("Unable to capture the texture");
+        //StartCoroutine(Capture(CroppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
     }
 
     IEnumerator Cropping()

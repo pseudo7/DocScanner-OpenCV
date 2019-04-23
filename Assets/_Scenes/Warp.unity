@@ -1162,6 +1162,7 @@ GameObject:
   - component: {fileID: 494910731}
   - component: {fileID: 494910733}
   - component: {fileID: 494910732}
+  - component: {fileID: 494910734}
   m_Layer: 5
   m_Name: Target_RawImage
   m_TagString: Untagged
@@ -1223,6 +1224,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494910730}
   m_CullTransparentMesh: 0
+--- !u!114 &494910734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494910730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1254083943, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 0
+  m_AspectRatio: 2.1666667
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,7 +1416,7 @@ RectTransform:
   m_Children:
   - {fileID: 1971081701}
   m_Father: {fileID: 1065055725}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2019,8 +2034,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec8011981ecc05142b52b01851a16196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasScaler: {fileID: 1065055723}
   targetImage: {fileID: 494910732}
+  targetRatioFitter: {fileID: 494910734}
+  canvasScaler: {fileID: 1065055723}
   warpedImage: {fileID: 191616803}
   filteredImage: {fileID: 82092447}
   clippedImage: {fileID: 632318682}
@@ -2123,8 +2139,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 494910731}
-  - {fileID: 632318681}
   - {fileID: 1543549584}
+  - {fileID: 632318681}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3108,7 +3124,7 @@ RectTransform:
   - {fileID: 249876754}
   - {fileID: 691183893}
   m_Father: {fileID: 1065055725}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3817,16 +3833,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1900ce1407c16ad4b930680ef45e529b,
         type: 3}
-    - target: {fileID: 2602918196579859594, guid: 3306ae3e592240b42bc8be96421056e1,
-        type: 3}
-      propertyPath: m_PreserveAspect
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5296187603502307617, guid: 3306ae3e592240b42bc8be96421056e1,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4300375211899077908, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
       propertyPath: m_Delegates.Array.size
@@ -3897,6 +3903,16 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[2].callback.m_TypeName
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 2602918196579859594, guid: 3306ae3e592240b42bc8be96421056e1,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5296187603502307617, guid: 3306ae3e592240b42bc8be96421056e1,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3306ae3e592240b42bc8be96421056e1, type: 3}

@@ -21,6 +21,10 @@ public class CropHandle : MonoBehaviour
     bool insideYPadding;
 
     Texture2D sourceTexture;
+    float normalizedFactor;
+    float offset;
+
+
     void Awake()
     {
         if (!imageCrop) imageCrop = FindObjectOfType<ImageCrop>();
@@ -28,7 +32,12 @@ public class CropHandle : MonoBehaviour
 
     void Start()
     {
-        if (!sourceTexture) sourceTexture = ImageCrop.CroppingTexture;
+        sourceTexture = ImageCrop.CroppingTexture;
+
+        float width = (sourceTexture.width / (float)sourceTexture.height) * Screen.height;
+        offset = (Screen.width - width) / 2;
+
+        normalizedFactor = sourceTexture.height / (float)Screen.height;
 
         if (!areValuesSet)
         {
@@ -55,7 +64,8 @@ public class CropHandle : MonoBehaviour
 
     public void UpdateClipTexture()
     {
-        imageCrop.UpdateClippedTexture(GetTextureAroundPoint(transform.GetChild(0).position));
+        Vector2 handlePos = new Vector2((transform.GetChild(0).position.x - offset) * normalizedFactor, transform.GetChild(0).position.y * normalizedFactor);
+        imageCrop.UpdateClippedTexture(GetTextureAroundPoint(handlePos));
     }
 
     /// <summary>

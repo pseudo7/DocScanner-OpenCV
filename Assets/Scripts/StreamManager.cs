@@ -17,6 +17,8 @@ public class StreamManager : MonoBehaviour
 
     public WebCamTexture WebCam { private set; get; }
 
+    public static Vector2Int WebcamSize { private set; get; }
+
     void Start()
     {
         WebCamDevice[] camDevices = WebCamTexture.devices;
@@ -41,9 +43,9 @@ public class StreamManager : MonoBehaviour
         }
 
         fitter.aspectMode = aspectMode;
-
         WebCam.Play();
         background.texture = WebCam;
+        WebcamSize = new Vector2Int(WebCam.width, WebCam.height);
     }
 
     void SetUpWebCam()
