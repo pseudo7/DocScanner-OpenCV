@@ -24,7 +24,7 @@ public class PreviewController : MonoBehaviour
         Texture2D warpedTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(filteredRawImage.mainTexture, warpedTexture);
 
-        Mat warpedMat = new Mat(height, width, CvType.CV_8UC4);
+        Mat warpedMat = new Mat(height, width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, warpedMat);
 
         Texture2D newTexture = new Texture2D(newWidth, newHeight, TextureFormat.RGB24, false);
@@ -49,22 +49,18 @@ public class PreviewController : MonoBehaviour
         Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
 
-        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC4);
+        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, initMat);
-        Mat finalMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC4);
+        Mat finalMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC3);
 
         Imgproc.GaussianBlur(initMat, finalMat, new Size(0, 0), 3);
 
+
         Core.addWeighted(initMat, 1.5, finalMat, -.5, 0, finalMat);
 
-        //double[] scalarValues = new double[] { -1, -1, -1, -1, 9 - 1, -1, -1, -1 };
-        //Scalar scalar = new Scalar(scalarValues);
-
-        //Mat kernel = new Mat(3, 3, CvType.CV_8UC4, scalar);
-        //Imgproc.filter2D(initMat, initMat, -1, kernel);
-
         Utils.matToTexture2D(finalMat, warpedTexture);
-
+        initMat.Dispose();
+        finalMat.Dispose();
         previewRawImage.texture = warpedTexture;
     }
 
@@ -74,8 +70,6 @@ public class PreviewController : MonoBehaviour
         Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
 
         string path = GetStorageDirectory();
-
-        Debug.Log("Directory: " + path);
 
         Debug.LogWarning("External Permission: " + Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite));
 

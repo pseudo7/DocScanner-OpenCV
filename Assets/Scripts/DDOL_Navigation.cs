@@ -22,7 +22,7 @@ public class DDOL_Navigation : MonoBehaviour
     event System.Action<string> DontAskDenied;
 
     public static Texture2D SavedTexture { private set; get; }
-    public static Vector3 TextureSizeDelta { private set; get; }
+    public static Vector2Int TextureSizeDelta { private set; get; }
 
     void Awake()
     {
@@ -41,7 +41,12 @@ public class DDOL_Navigation : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(Instance.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         capturedImage.gameObject.SetActive(false);
     }
 
@@ -93,7 +98,10 @@ public class DDOL_Navigation : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                Application.Quit();
+            else SceneManager.LoadScene(0);
     }
 
     public void Quit()
@@ -110,15 +118,12 @@ public class DDOL_Navigation : MonoBehaviour
         capturedImage.texture = capturedTexture;
         capturedImage.gameObject.SetActive(true);
         SavedTexture = capturedTexture;
-
-        TextureSizeDelta = capturedImage.rectTransform.rect.min;
-        // new Vector3(, capturedImage.rectTransform.rect.yMin, 0);
-        Debug.Log("Size Delta: " + TextureSizeDelta);
     }
 
     public void ScanDocument()
     {
         if (!SavedTexture) SavedTexture = testingTexture;
+        streamManager.WebCam.Stop();
         SceneManager.LoadScene(1);
     }
 

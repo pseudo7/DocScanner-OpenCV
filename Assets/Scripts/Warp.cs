@@ -22,7 +22,7 @@ public class Warp : MonoBehaviour
 
         croppedImage.texture = inputTexture;
 
-        Mat inputMat = new Mat(inputTexture.height, inputTexture.width, CvType.CV_8UC4);
+        Mat inputMat = new Mat(inputTexture.height, inputTexture.width, CvType.CV_8UC3);
 
         Utils.texture2DToMat(inputTexture, inputMat);
 
@@ -44,7 +44,7 @@ public class Warp : MonoBehaviour
         dst_mat.put(0, 0, 0.0, 0.0, width, 0.0, 0.0, height, width, height);
 
         Mat perspectiveTransform = Imgproc.getPerspectiveTransform(src_mat, dst_mat);
-        Mat outputMat = new Mat(new Size(width, height), CvType.CV_8UC4);
+        Mat outputMat = new Mat(new Size(width, height), CvType.CV_8UC3);
 
         Imgproc.warpPerspective(inputMat, outputMat, perspectiveTransform, new Size(width, height));
         Texture2D outputTexture = new Texture2D((int)(width), (int)(height), TextureFormat.RGB24, false);

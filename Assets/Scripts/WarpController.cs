@@ -13,10 +13,10 @@ public class WarpController : MonoBehaviour
     Vector2 origSizeDelta;
 
     public const float WIDTH = 750;
-    public static float HEIGHT = WIDTH * (Screen.height / (float)Screen.width);
+    public static float HEIGHT = WIDTH * (StreamManager.WebcamSize.y / (float)StreamManager.WebcamSize.x);
 
     const float FILTER_WIDTH = 500;
-    static float FILTER_HEIGHT = FILTER_WIDTH * (Screen.height / (float)Screen.width);
+    static float FILTER_HEIGHT = FILTER_WIDTH * (StreamManager.WebcamSize.y/ (float)StreamManager.WebcamSize.x);
 
     public const float X_PADDING = 150;
     public const float Y_PADDING = 50;
