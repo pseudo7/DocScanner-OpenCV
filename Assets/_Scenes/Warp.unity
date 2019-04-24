@@ -1064,7 +1064,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1353425843}
+      objectReference: {fileID: 1040794911}
     - target: {fileID: 6819932137474297820, guid: ff489dbf45feff24eaf2359ad9181842,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -2631,6 +2631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1040794909}
   - component: {fileID: 1040794910}
+  - component: {fileID: 1040794911}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -2677,6 +2678,23 @@ MonoBehaviour:
   rightTop: {fileID: 2068511718}
   leftBottom: {fileID: 1207133821}
   rightBottom: {fileID: 1170161369}
+--- !u!114 &1040794911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040794908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60432254091178a41b17c31974154442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeToggleGroup: {fileID: 1523273067}
+  currentDimmText: {fileID: 957709370}
+  itemPrefab: {fileID: 9164391187329597879, guid: e36545ae09f1c2e4fac175f01cdf02fa,
+    type: 3}
+  itemSpawnParent: {fileID: 1452978827}
 --- !u!1 &1065055721
 GameObject:
   m_ObjectHideFlags: 0
@@ -3457,7 +3475,6 @@ GameObject:
   - component: {fileID: 1353425840}
   - component: {fileID: 1353425842}
   - component: {fileID: 1353425841}
-  - component: {fileID: 1353425843}
   m_Layer: 5
   m_Name: Crop_Size_Panel
   m_TagString: Untagged
@@ -3526,23 +3543,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353425839}
   m_CullTransparentMesh: 0
---- !u!114 &1353425843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353425839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60432254091178a41b17c31974154442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sizeToggleGroup: {fileID: 1523273067}
-  currentDimmText: {fileID: 957709370}
-  itemPrefab: {fileID: 9164391187329597879, guid: e36545ae09f1c2e4fac175f01cdf02fa,
-    type: 3}
-  itemSpawnParent: {fileID: 1452978827}
 --- !u!1 &1358536635
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,7 +3798,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1353425843}
+      objectReference: {fileID: 1040794911}
     - target: {fileID: 6819932137474297820, guid: ff489dbf45feff24eaf2359ad9181842,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -5318,7 +5318,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1353425843}
+      objectReference: {fileID: 1040794911}
     - target: {fileID: 6819932137474297820, guid: ff489dbf45feff24eaf2359ad9181842,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

@@ -104,18 +104,14 @@ public class ImageCrop : MonoBehaviour
 
         List<Point> dstPoints = new List<Point>
         {
-            //new Point(0, 0),
-            //new Point(Screen.width, 0),
-            //new Point(Screen.width, Screen.height),
-            //new Point(0, Screen.height),
             new Point(0, 0),
-            new Point(StreamManager.WebcamSize.x, 0),
-            new Point(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y),
-            new Point(0, StreamManager.WebcamSize.y),
-            //new Point(minValX, minValY),
-            //new Point(maxValX, minValY),
-            //new Point(maxValX, maxValY),
-            //new Point(minValX, maxValY),
+            new Point(CropSizeManager.CurrentDimmension.width, 0),
+            new Point(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height),
+            new Point(0, CropSizeManager.CurrentDimmension.height),
+            //new Point(0, 0),
+            //new Point(StreamManager.WebcamSize.x, 0),
+            //new Point(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y),
+            //new Point(0, StreamManager.WebcamSize.y),
         };
 
         Mat dstPointsMat = Converters.vector_Point_to_Mat(dstPoints, CvType.CV_32F);
@@ -126,9 +122,9 @@ public class ImageCrop : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
 
-        Imgproc.warpPerspective(mainMat, warpedMat, M, new Size(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y));
+        Imgproc.warpPerspective(mainMat, warpedMat, M, new Size(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height));
 
-        Texture2D finalTexture = new Texture2D(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y, TextureFormat.RGB24, false);
+        Texture2D finalTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
 
         Utils.matToTexture2D(warpedMat, finalTexture);
 
@@ -146,10 +142,10 @@ public class ImageCrop : MonoBehaviour
 
     public void ColorEnhanced()
     {
-        warpedTexture = new Texture2D(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(warpedImage.texture, warpedTexture);
 
-        Mat initMat = new Mat(StreamManager.WebcamSize.y, StreamManager.WebcamSize.x, CvType.CV_8UC3);
+        Mat initMat = new Mat(CropSizeManager.CurrentDimmension.height, CropSizeManager.CurrentDimmension.width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, initMat);
 
         initMat *= 1.25f;
@@ -165,7 +161,7 @@ public class ImageCrop : MonoBehaviour
 
     public void OrignalTexture()
     {
-        warpedTexture = new Texture2D(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(warpedImage.texture, warpedTexture);
 
         filteredImage.texture = warpedTexture;
@@ -190,10 +186,10 @@ public class ImageCrop : MonoBehaviour
 
     public void GrayScaled()
     {
-        warpedTexture = new Texture2D(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(warpedImage.texture, warpedTexture);
 
-        Mat initMat = new Mat(StreamManager.WebcamSize.y, StreamManager.WebcamSize.x, CvType.CV_8UC3);
+        Mat initMat = new Mat(CropSizeManager.CurrentDimmension.height, CropSizeManager.CurrentDimmension.width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, initMat);
 
         Imgproc.cvtColor(initMat, initMat, Imgproc.COLOR_BGR2GRAY);
@@ -208,10 +204,10 @@ public class ImageCrop : MonoBehaviour
 
     public void BlackAndWhite()
     {
-        warpedTexture = new Texture2D(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(warpedImage.texture, warpedTexture);
 
-        Mat initMat = new Mat(StreamManager.WebcamSize.y, StreamManager.WebcamSize.x, CvType.CV_8UC3);
+        Mat initMat = new Mat(CropSizeManager.CurrentDimmension.height, CropSizeManager.CurrentDimmension.width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, initMat);
 
         Imgproc.cvtColor(initMat, initMat, Imgproc.COLOR_BGR2GRAY);
@@ -227,10 +223,10 @@ public class ImageCrop : MonoBehaviour
 
     public void EdgedWhite()
     {
-        warpedTexture = new Texture2D(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(warpedImage.texture, warpedTexture);
 
-        Mat initMat = new Mat(StreamManager.WebcamSize.y, StreamManager.WebcamSize.x, CvType.CV_8UC3);
+        Mat initMat = new Mat(CropSizeManager.CurrentDimmension.height, CropSizeManager.CurrentDimmension.width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, initMat);
 
         Imgproc.cvtColor(initMat, initMat, Imgproc.COLOR_BGR2GRAY);

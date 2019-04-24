@@ -237,10 +237,10 @@ public class CropSizeManager : MonoBehaviour
 [System.Serializable]
 public struct Dimm
 {
-    public uint width;
-    public uint height;
+    public int width;
+    public int height;
 
-    public Dimm(uint width, uint height)
+    public Dimm(int width, int height)
     {
         this.width = width;
         this.height = height;
