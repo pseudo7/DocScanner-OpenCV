@@ -10,6 +10,9 @@ public class PreviewController : MonoBehaviour
     public RawImage filteredRawImage;
     public RawImage previewRawImage;
     public AspectRatioFitter ratioFitter;
+    public GameObject saveDialog;
+    public Sprite successSprite;
+    public Sprite errorSprite;
 
     public void ShowPreview()
     {
@@ -75,17 +78,44 @@ public class PreviewController : MonoBehaviour
 
         if (Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
         {
-            byte[] textureData = warpedTexture.EncodeToPNG();
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            string fileName = System.DateTime.Now.Ticks + ".PNG";
-            string filePath = Path.Combine(path, fileName);
-            File.WriteAllBytes(filePath, textureData);
-            Debug.Log("File: " + filePath);
-            ScanMedia(fileName);
+            try
+            {
+                byte[] textureData = warpedTexture.EncodeToPNG();
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                string fileName = System.DateTime.Now.Ticks + ".PNG";
+                string filePath = Path.Combine(path, fileName);
+                File.WriteAllBytes(filePath, textureData);
+                Debug.Log("File: " + filePath);
+                ScanMedia(fileName);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e);
+                ShowSaveSuccessDialog(false);
+            }
+            ShowSaveSuccessDialog(true);
         }
-        else Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+        else
+        {
+            Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+            ShowSaveSuccessDialog(false);
+        }
     }
 
+    void ShowSaveSuccessDialog(bool saveSuccessful)
+    {
+        StartCoroutine(ShowDialog(saveSuccessful));
+    }
+
+    IEnumerator ShowDialog(bool saveSuccessful)
+    {
+        saveDialog.transform.GetChild(0).GetComponent<Image>().sprite = saveSuccessful ? successSprite : errorSprite;
+        saveDialog.transform.GetChild(0).GetComponent<Image>().color = saveSuccessful ? Color.green : Color.red;
+        saveDialog.transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = saveSuccessful ? "Save Successful!" : "Save Un-successful!";
+        saveDialog.SetActive(true);
+        yield return new WaitForSeconds(1);
+        saveDialog.SetActive(false);
+    }
 
     void ScanMedia(string fileName)
     {

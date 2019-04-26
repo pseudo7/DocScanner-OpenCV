@@ -8,10 +8,10 @@ public class CropSizeManager : MonoBehaviour
 {
     public static CropSizeManager Instance;
 
-    [SerializeField] ToggleGroup sizeToggleGroup;
-    [SerializeField] TextMeshProUGUI currentDimmText;
-    [SerializeField] GameObject itemPrefab;
-    [SerializeField] Transform itemSpawnParent;
+    public ToggleGroup sizeToggleGroup;
+    public TextMeshProUGUI currentDimmText;
+    public GameObject itemPrefab;
+    public Transform itemSpawnParent;
 
     public static Dimm CurrentDimmension { set; get; }
     public void SetCurrentDimmText(string dimmensionText)
@@ -26,7 +26,7 @@ public class CropSizeManager : MonoBehaviour
         PopulateItems();
         ReActivatePaperItems();
         CurrentDimmension = GetPaperPixels(ISOPaperType.A7);
-        SetCurrentDimmText(string.Format("Current Size\n{0} - {1}", ISOPaperType.A2, GetPaperPixels(ISOPaperType.A7)));
+        SetCurrentDimmText(string.Format("Current Size\n{0} - {1}", ISOPaperType.A7, GetPaperPixels(ISOPaperType.A7)));
     }
     public void RePopulateItems(int id)
     {
