@@ -25,8 +25,8 @@ public class CropSizeManager : MonoBehaviour
         if (!Instance) Instance = this;
         PopulateItems();
         ReActivatePaperItems();
-        CurrentDimmension = GetPaperPixels(ISOPaperType.A2);
-        SetCurrentDimmText(string.Format("Current Size\n{0} - {1}", ISOPaperType.A2, GetPaperPixels(ISOPaperType.A2)));
+        CurrentDimmension = GetPaperPixels(ISOPaperType.A7);
+        SetCurrentDimmText(string.Format("Current Size\n{0} - {1}", ISOPaperType.A2, GetPaperPixels(ISOPaperType.A7)));
     }
     public void RePopulateItems(int id)
     {
@@ -252,4 +252,4 @@ public struct Dimm
 }
 public enum LegacyScreenResolution { NONE, L_600, L_768, L_1024 }
 public enum WideScreenResolution { NONE, L_540P, L_720P, L_1080P, L_2K, L_1440P, L_4K }
-public enum ISOPaperType { NONE, A2, A3, A4, A5, A6, A7 }
+public enum ISOPaperType { NONE, A7, A6, A5, A4, A3, A2 }
