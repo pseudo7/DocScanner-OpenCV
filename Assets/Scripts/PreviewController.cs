@@ -19,24 +19,23 @@ public class PreviewController : MonoBehaviour
         int width = filteredRawImage.mainTexture.width;
         int height = filteredRawImage.mainTexture.height;
 
-        Debug.Log(WarpController.DeltaWidth + " " + WarpController.DeltaHeight);
-
-        int newWidth = (int)(width * WarpController.DeltaWidth);
-        int newHeight = (int)(height * WarpController.DeltaHeight);
-
         Texture2D warpedTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(filteredRawImage.mainTexture, warpedTexture);
 
         Mat warpedMat = new Mat(height, width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, warpedMat);
 
-        Texture2D newTexture = new Texture2D(newWidth, newHeight, TextureFormat.RGB24, false);
+        Texture2D newTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
 
-        Imgproc.resize(warpedMat, warpedMat, new Size(newWidth, newHeight));
+        Imgproc.resize(warpedMat, warpedMat, new Size(width, height));
         Utils.matToTexture2D(warpedMat, newTexture);
 
         previewRawImage.texture = newTexture;
-        ratioFitter.aspectRatio = newWidth / (float)newHeight;
+        ratioFitter.aspectRatio = width / (float)height;
+
+        warpedMat.Dispose();
+        newTexture = null;
+        System.GC.Collect();
 
         gameObject.SetActive(true);
     }
@@ -57,7 +56,6 @@ public class PreviewController : MonoBehaviour
         Mat finalMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC3);
 
         Imgproc.GaussianBlur(initMat, finalMat, new Size(0, 0), 3);
-
 
         Core.addWeighted(initMat, 1.5, finalMat, -.5, 0, finalMat);
 
