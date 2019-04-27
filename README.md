@@ -19,18 +19,19 @@
 
 - Select the desired size:
   - ISO Paper Size  
+  <br>
   <img src="/Screenshots/2/03-min.jpg" width="60%" height="60%">
   <br>
   <br>
   
   - Wide-Screen Size (16:9)  
-  
+  <br>
   <img src="/Screenshots/2/04-min.jpg" width="60%" height="60%">
   <br>
   <br>
   
   - Legacy Screen Size (4:3) 
-  
+  <br>
   <img src="/Screenshots/2/05-min.jpg" width="60%" height="60%">
 - Then Click on Crop Button to procees.
 <hr>
