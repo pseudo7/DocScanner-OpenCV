@@ -106,10 +106,17 @@ public class DDOL_Navigation : MonoBehaviour
 
         capturedTexture.SetPixels32(colors);
         yield return new WaitForEndOfFrame();
-        //capturedTexture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
         capturedTexture.Apply();
 
         cropBorder.SetActive(true);
         controlsParent.SetActive(true);
     }
+
+#if UNITY_EDITOR
+    [UnityEditor.MenuItem("Pseudo/Capture")]
+    static void Capture()
+    {
+        ScreenCapture.CaptureScreenshot(string.Format("{0}.png", System.DateTime.Now.Ticks.ToString()));
+    }
+#endif
 }
