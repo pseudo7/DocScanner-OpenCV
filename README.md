@@ -44,9 +44,9 @@
 - Rotate/Sharpen (if required) and save to disk.
 - Saved image can found in Gallery, under **Pseudo** Folder.
 <img src="/Screenshots/07-min.jpg" width="60%" height="60%">
+<hr>
 
-
-### Other Samples
+## Other Samples
 <p align="center"><img src="/Screenshots/09-min.jpg" width="65%" height="65%">&nbsp<img src="/Screenshots/10-min.PNG" width="25%" height="25%"></p>
 <br>
 <p align="center"><img src="/Screenshots/11-min.jpg" width="65%" height="65%">&nbsp<img src="/Screenshots/12-min.PNG" width="25%" height="25%"></p>
