@@ -3,7 +3,7 @@
 
 # Screenshots
 ### Output Texture
-<img src="/Screenshots/2/08-min.PNG" width="40%" height="40%">
+<img src="/Screenshots/08-min.PNG" width="40%" height="40%">
 
 # Procedure
 
