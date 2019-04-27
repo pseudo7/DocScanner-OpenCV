@@ -1,2 +1,2 @@
 # DocScanner - OpenCV
-Not So-Basic Document Scanner using OpenCV in Unity3D.
+Sophisticated Document Scanner using OpenCV in Unity3D.
