@@ -14,12 +14,27 @@ public class PreviewManager : MonoBehaviour
     public Sprite successSprite;
     public Sprite errorSprite;
 
+    [Header("Adjustments")]
+    public GameObject contrastPanel;
+    public GameObject brightnessPanel;
+    public UnityEngine.UI.Text contrastText;
+    public UnityEngine.UI.Text brightnessText;
+    public Slider contrastSlider;
+    public Slider brightnessSlider;
+
+    static Texture2D warpedTexture;
+
+    void OnDisable()
+    {
+        contrastSlider.value = brightnessSlider.value = 0;
+    }
+
     public void ShowPreview()
     {
         int width = filteredRawImage.mainTexture.width;
         int height = filteredRawImage.mainTexture.height;
 
-        Texture2D warpedTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(filteredRawImage.mainTexture, warpedTexture);
 
         Mat warpedMat = new Mat(height, width, CvType.CV_8UC3);
@@ -35,6 +50,7 @@ public class PreviewManager : MonoBehaviour
 
         warpedMat.Dispose();
         newTexture = null;
+        warpedTexture = null;
         System.GC.Collect();
 
         gameObject.SetActive(true);
@@ -48,7 +64,7 @@ public class PreviewManager : MonoBehaviour
 
     public void Sharpen()
     {
-        Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
 
         Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC3);
@@ -63,11 +79,13 @@ public class PreviewManager : MonoBehaviour
         initMat.Dispose();
         finalMat.Dispose();
         previewRawImage.texture = warpedTexture;
+        warpedTexture = null;
+        System.GC.Collect();
     }
 
     public void SaveTextureToDisk()
     {
-        Texture2D warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
+        warpedTexture = new Texture2D(previewRawImage.mainTexture.width, previewRawImage.mainTexture.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(previewRawImage.texture, warpedTexture);
 
         string path = GetStorageDirectory();
@@ -113,6 +131,70 @@ public class PreviewManager : MonoBehaviour
         saveDialog.SetActive(true);
         yield return new WaitForSeconds(1);
         saveDialog.SetActive(false);
+    }
+
+    //public void UpdateContrast()
+    //{
+    //    warpedTexture = new Texture2D(filteredRawImage.mainTexture.width, filteredRawImage.mainTexture.height, TextureFormat.RGB24, false);
+    //    Graphics.CopyTexture(filteredRawImage.texture, warpedTexture);
+
+    //    Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC3);
+    //    Utils.texture2DToMat(warpedTexture, initMat);
+
+    //    int val = (int)contrastSlider.value;
+
+    //    Debug.Log(1 + val / 10f);
+
+    //    initMat *= (1 + val / 10f);
+
+    //    Utils.matToTexture2D(initMat, warpedTexture);
+
+    //    contrastText.text = string.Format("Contrast +{0}0%", val);
+
+    //    initMat.Dispose();
+    //    previewRawImage.texture = warpedTexture;
+    //    warpedTexture = null;
+    //    System.GC.Collect();
+    //}
+
+    public void UpdateContrastBrightness()
+    {
+        warpedTexture = new Texture2D(filteredRawImage.mainTexture.width, filteredRawImage.mainTexture.height, TextureFormat.RGB24, false);
+        Graphics.CopyTexture(filteredRawImage.texture, warpedTexture);
+
+        Mat initMat = new Mat(warpedTexture.height, warpedTexture.width, CvType.CV_8UC3);
+        Utils.texture2DToMat(warpedTexture, initMat);
+
+        float brightnessVal = brightnessSlider.value * 5;
+        float contrastVal = 1 + contrastSlider.value / 10f;
+
+        Debug.Log(brightnessVal);
+        Debug.Log(contrastVal);
+
+        initMat += Scalar.all(brightnessVal);
+        initMat *= (contrastVal);
+
+        Utils.matToTexture2D(initMat, warpedTexture);
+
+        brightnessText.text = string.Format("Brightness +{0}", brightnessVal);
+        contrastText.text = string.Format("Contrast +{0}0%", contrastVal);
+
+        initMat.Dispose();
+        previewRawImage.texture = warpedTexture;
+        warpedTexture = null;
+        System.GC.Collect();
+    }
+
+    public void ToggleContrast()
+    {
+        brightnessPanel.SetActive(false);
+        contrastPanel.SetActive(!contrastPanel.activeInHierarchy);
+    }
+
+    public void ToggleBrightness()
+    {
+        contrastPanel.SetActive(false);
+        brightnessPanel.SetActive(!brightnessPanel.activeInHierarchy);
     }
 
     void ScanMedia(string fileName)

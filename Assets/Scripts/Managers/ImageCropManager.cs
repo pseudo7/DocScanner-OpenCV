@@ -27,13 +27,11 @@ public class ImageCropManager : MonoBehaviour
     static Camera mainCam;
     static Texture2D warpedTexture;
 
-    //CropHandle[] cropHandles;
     public static Texture2D CroppingTexture { private set; get; }
 
     void Awake()
     {
         if (!mainCam) mainCam = Camera.main;
-        //cropHandles = FindObjectsOfType<CropHandle>();
         SetupFrame();
     }
 
@@ -58,7 +56,6 @@ public class ImageCropManager : MonoBehaviour
             targetRatioFitter.aspectRatio = StreamManager.WebcamSize.x / (float)StreamManager.WebcamSize.y;
         }
         else Debug.LogError("Unable to capture the texture");
-        //StartCoroutine(Capture(CroppingTexture = new Texture2D(Screen.width, Screen.height), new UnityEngine.Rect(0, 0, Screen.width, Screen.height)));
     }
 
     IEnumerator Cropping()
@@ -67,21 +64,6 @@ public class ImageCropManager : MonoBehaviour
         Vector2 leftTopPos = GetResolutionBasedPosition(leftTop.position);
         Vector2 rightBottomPos = GetResolutionBasedPosition(rightBottom.position);
         Vector2 rightTopPos = GetResolutionBasedPosition(rightTop.position);
-
-        //float minValX, minValY, maxValX, maxValY;
-        //minValX = minValY = float.MaxValue;
-        //maxValX = maxValY = float.MinValue;
-
-        //foreach (CropHandle handle in cropHandles)
-        //{
-        //    Vector3 handlePos = handle.transform.position;
-
-        //    if (handlePos.x < minValX) minValX = handlePos.x;
-        //    if (handlePos.y < minValY) minValY = handlePos.y;
-
-        //    if (handlePos.x > maxValX) maxValX = handlePos.x;
-        //    if (handlePos.y > maxValY) maxValY = handlePos.y;
-        //}
 
         Mat mainMat = new Mat(StreamManager.WebcamSize.y, StreamManager.WebcamSize.x, CvType.CV_8UC3);
 
@@ -93,10 +75,6 @@ public class ImageCropManager : MonoBehaviour
             new Point(rightBottomPos.x, StreamManager.WebcamSize.y - rightBottomPos.y),
             new Point(rightTopPos.x, StreamManager.WebcamSize.y - rightTopPos.y),
             new Point(leftTopPos.x, StreamManager.WebcamSize.y - leftTopPos.y),
-            //new Point(leftBottom.position.x, StreamManager.WebcamSize.y - leftBottom.position.y),
-            //new Point(rightBottom.position.x, StreamManager.WebcamSize.y - rightBottom.position.y),
-            //new Point(rightTop.position.x, StreamManager.WebcamSize.y - rightTop.position.y),
-            //new Point(leftTop.position.x, StreamManager.WebcamSize.y - leftTop.position.y),
         };
 
         Mat srcPointsMat = Converters.vector_Point_to_Mat(srcPoints, CvType.CV_32F);
@@ -107,10 +85,6 @@ public class ImageCropManager : MonoBehaviour
             new Point(CropSizeManager.CurrentDimmension.width, 0),
             new Point(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height),
             new Point(0, CropSizeManager.CurrentDimmension.height),
-            //new Point(0, 0),
-            //new Point(StreamManager.WebcamSize.x, 0),
-            //new Point(StreamManager.WebcamSize.x, StreamManager.WebcamSize.y),
-            //new Point(0, StreamManager.WebcamSize.y),
         };
 
         Mat dstPointsMat = Converters.vector_Point_to_Mat(dstPoints, CvType.CV_32F);
@@ -147,8 +121,7 @@ public class ImageCropManager : MonoBehaviour
         Mat initMat = new Mat(CropSizeManager.CurrentDimmension.height, CropSizeManager.CurrentDimmension.width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, initMat);
 
-        initMat *= 1.25f;
-        initMat += Scalar.all(15);
+        initMat *= 1.15f;
 
         Utils.matToTexture2D(initMat, warpedTexture);
         initMat.Dispose();
@@ -238,13 +211,4 @@ public class ImageCropManager : MonoBehaviour
         System.GC.Collect();
         filteredImage.gameObject.SetActive(true);
     }
-
-    //IEnumerator Capture(Texture2D capturedTexture, UnityEngine.Rect rect)
-    //{
-    //    cropControlPanel.SetActive(false);
-    //    yield return new WaitForEndOfFrame();
-    //    capturedTexture.ReadPixels(rect, 0, 0);
-    //    capturedTexture.Apply();
-    //    cropControlPanel.SetActive(true);
-    //}
 }
