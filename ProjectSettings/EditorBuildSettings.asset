@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/_Scenes/DDOL_Navigation.unity
     guid: f94df52f9dec38d43bdf539248567026
   - enabled: 1
-    path: Assets/_Scenes/Warp.unity
+    path: Assets/_Scenes/Transformations.unity
     guid: ad3ac681373532149813776f6018b75c
-  - enabled: 0
-    path: Assets/_Scenes/ScanResult.unity
-    guid: bc6ef919435a6b9439599dfefcf194ed
   m_configObjects: {}
