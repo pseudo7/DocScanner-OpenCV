@@ -15,7 +15,6 @@ public class DDOL_Navigation : MonoBehaviour
     public StreamManager streamManager;
     public GameObject controlsParent;
     public RawImage capturedImage;
-
     event System.Action<string> Granted;
     event System.Action<string> Denied;
     event System.Action<string> DontAskDenied;
@@ -64,10 +63,14 @@ public class DDOL_Navigation : MonoBehaviour
 
     void Update()
     {
+        CheckForBackPress();
+    }
+
+    void CheckForBackPress()
+    {
         if (Input.GetKeyDown(KeyCode.Escape))
             if (SceneManager.GetActiveScene().buildIndex == 0)
                 Application.Quit();
-            else SceneManager.LoadScene(0);
     }
 
     public void Quit()

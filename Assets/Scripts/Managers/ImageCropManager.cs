@@ -93,8 +93,6 @@ public class ImageCropManager : MonoBehaviour
 
         Mat warpedMat = new Mat(mainMat.size(), CvType.CV_8UC3);
 
-        yield return new WaitForEndOfFrame();
-
         Imgproc.warpPerspective(mainMat, warpedMat, M, new Size(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height));
 
         Texture2D finalTexture = new Texture2D(CropSizeManager.CurrentDimmension.width, CropSizeManager.CurrentDimmension.height, TextureFormat.RGB24, false);
