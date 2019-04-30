@@ -3453,6 +3453,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right_Bottom
       objectReference: {fileID: 0}
+    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
+        type: 3}
+      propertyPath: pointerType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4300375211899077905, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3557,11 +3562,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
-        type: 3}
-      propertyPath: pointerType
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1558920371333794789, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
@@ -3756,6 +3756,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left_Bottom
       objectReference: {fileID: 0}
+    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
+        type: 3}
+      propertyPath: pointerType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4300375211899077905, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3860,11 +3865,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
-        type: 3}
-      propertyPath: pointerType
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1558920371333794789, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
@@ -4791,7 +4791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5358,7 +5358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5740,6 +5740,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1643450434}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 397413077}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1773812329
@@ -5826,6 +5848,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Left_Top
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
+        type: 3}
+      propertyPath: pointerType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4300375211899077905, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
@@ -5931,11 +5958,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
-        type: 3}
-      propertyPath: pointerType
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1558920371333794789, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
@@ -6789,6 +6811,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right_Top
       objectReference: {fileID: 0}
+    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
+        type: 3}
+      propertyPath: pointerType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4300375211899077905, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6893,11 +6920,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4300375211899077909, guid: 3306ae3e592240b42bc8be96421056e1,
-        type: 3}
-      propertyPath: pointerType
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1558920371333794789, guid: 3306ae3e592240b42bc8be96421056e1,
         type: 3}

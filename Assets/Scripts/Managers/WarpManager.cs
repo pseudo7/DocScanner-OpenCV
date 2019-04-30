@@ -12,11 +12,11 @@ public class WarpManager : MonoBehaviour
 
     Vector2 origSizeDelta;
 
-    public const float WIDTH = 750;
-    public static float HEIGHT = WIDTH * (StreamManager.WebcamSize.y / (float)StreamManager.WebcamSize.x);
+    public static float WIDTH = 750;
+    public static float HEIGHT;// = WIDTH * CropSizeManager.CurrentDimmension.height / (float)CropSizeManager.CurrentDimmension.width;// (StreamManager.WebcamSize.y / (float)StreamManager.WebcamSize.x);
 
-    const float FILTER_WIDTH = 500;
-    static float FILTER_HEIGHT = FILTER_WIDTH * (StreamManager.WebcamSize.y/ (float)StreamManager.WebcamSize.x);
+    static float FILTER_WIDTH = 500;
+    static float FILTER_HEIGHT;// = FILTER_WIDTH * CropSizeManager.CurrentDimmension.height / (float)CropSizeManager.CurrentDimmension.width;//(StreamManager.WebcamSize.y / (float)StreamManager.WebcamSize.x);
 
     public const float X_PADDING = 150;
     public const float Y_PADDING = 50;
@@ -30,6 +30,16 @@ public class WarpManager : MonoBehaviour
     void Start()
     {
         DeltaHeight = DeltaWidth = 1;
+        //Debug.LogWarning("Orig\n" + warpedImage.mainTexture.width + " " + warpedImage.mainTexture.height);
+    }
+
+    public static void SetupDimm()
+    {
+        WIDTH = 750;
+        HEIGHT = WIDTH * CropSizeManager.CurrentDimmension.height / (float)CropSizeManager.CurrentDimmension.width;// (StreamManager.WebcamSize.y / (float)StreamManager.WebcamSize.x);
+
+        FILTER_WIDTH = 500;
+        FILTER_HEIGHT = FILTER_WIDTH * CropSizeManager.CurrentDimmension.height / (float)CropSizeManager.CurrentDimmension.width;//(StreamManager.WebcamSize.y / (float)StreamManager.WebcamSize.x);
     }
 
     public void ResizeImage()
@@ -38,15 +48,16 @@ public class WarpManager : MonoBehaviour
         DeltaWidth = warpedImage.rectTransform.rect.width / WIDTH;
         DeltaHeight = warpedImage.rectTransform.rect.height / HEIGHT;
 
+        //Debug.LogWarning("WIDTH: " + WIDTH + "\nRect Width: " + warpedImage.rectTransform.rect.width);
+        //Debug.LogWarning("HEIGHT: " + HEIGHT + "\nRect Height: " + warpedImage.rectTransform.rect.height);
+
         filteredImage.rectTransform.sizeDelta = new Vector2(FILTER_WIDTH * DeltaWidth, FILTER_HEIGHT * DeltaHeight);
     }
 
     public void UpdateHandlers()
     {
-        //Debug.LogFormat("Width: {0}, Height: {1}", WIDTH, HEIGHT);
-        //Debug.LogFormat("X Padding: {0}, Y Padding: {1}", X_PADDING, Y_PADDING);
-        //Debug.LogFormat("X Offset: {0}, Y Offset: {1}", X_OFFSET, Y_OFFSET);
-
+        SetupDimm();
+        
         warpedImage.rectTransform.position = new Vector2(X_PADDING, Screen.height - Y_PADDING);
         warpedImage.rectTransform.sizeDelta = new Vector2(WIDTH, HEIGHT);
 

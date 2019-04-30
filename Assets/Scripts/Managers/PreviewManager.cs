@@ -31,8 +31,20 @@ public class PreviewManager : MonoBehaviour
 
     public void ShowPreview()
     {
+        int newWidth = (int)(filteredRawImage.mainTexture.width * WarpManager.DeltaWidth);
+        int newHeight = (int)(filteredRawImage.mainTexture.height * WarpManager.DeltaHeight);
+
         int width = filteredRawImage.mainTexture.width;
         int height = filteredRawImage.mainTexture.height;
+
+        //Debug.LogWarning("Delta Width: " + WarpManager.DeltaWidth);
+        //Debug.LogWarning("Delta Height: " + WarpManager.DeltaHeight);
+
+        //Debug.LogWarning("Width: " + width);
+        //Debug.LogWarning("Height: " + height);
+
+        //Debug.LogWarning("New Width: " + newWidth);
+        //Debug.LogWarning("New Height: " + newHeight);
 
         warpedTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(filteredRawImage.mainTexture, warpedTexture);
@@ -40,13 +52,13 @@ public class PreviewManager : MonoBehaviour
         Mat warpedMat = new Mat(height, width, CvType.CV_8UC3);
         Utils.texture2DToMat(warpedTexture, warpedMat);
 
-        Texture2D newTexture = new Texture2D(width, height, TextureFormat.RGB24, false);
+        Texture2D newTexture = new Texture2D(newWidth, newHeight, TextureFormat.RGB24, false);
 
-        Imgproc.resize(warpedMat, warpedMat, new Size(width, height));
+        Imgproc.resize(warpedMat, warpedMat, new Size(newWidth, newHeight));
         Utils.matToTexture2D(warpedMat, newTexture);
 
         previewRawImage.texture = newTexture;
-        ratioFitter.aspectRatio = width / (float)height;
+        ratioFitter.aspectRatio = newWidth / (float)newHeight;
 
         warpedMat.Dispose();
         newTexture = null;
@@ -225,6 +237,8 @@ public class PreviewManager : MonoBehaviour
 
     public void ResetTexture()
     {
+        brightnessPanel.SetActive(false);
+        contrastPanel.SetActive(false);
         ShowPreview();
     }
 

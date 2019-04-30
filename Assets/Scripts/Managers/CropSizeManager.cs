@@ -148,7 +148,7 @@ public class CropSizeManager : MonoBehaviour
     /// </summary>
     /// <param name="paperType"></param>
     /// <returns>Dimmensions of the Paper in Pixels</returns>
-    Dimm GetPaperPixels(ISOPaperType paperType)
+    public Dimm GetPaperPixels(ISOPaperType paperType)
     {
         switch (paperType)
         {
