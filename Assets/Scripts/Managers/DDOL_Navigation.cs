@@ -95,6 +95,7 @@ public class DDOL_Navigation : MonoBehaviour
 
     IEnumerator Capture(Texture2D capturedTexture)
     {
+        streamManager.WebCam.autoFocusPoint = null;
         controlsParent.SetActive(false);
         cropBorder.SetActive(false);
 
@@ -103,7 +104,6 @@ public class DDOL_Navigation : MonoBehaviour
         Color32[] colors = streamManager.WebCam.GetPixels32();
         capturedTexture.filterMode = FilterMode.Point;
         Debug.Log("Pixels: " + colors.Length);
-
         capturedTexture.SetPixels32(colors);
         yield return new WaitForEndOfFrame();
         capturedTexture.Apply();

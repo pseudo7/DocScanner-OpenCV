@@ -171,6 +171,8 @@ public class PreviewManager : MonoBehaviour
 
     public void UpdateContrastBrightness()
     {
+        ShowPreview();
+
         warpedTexture = new Texture2D(filteredRawImage.mainTexture.width, filteredRawImage.mainTexture.height, TextureFormat.RGB24, false);
         Graphics.CopyTexture(filteredRawImage.texture, warpedTexture);
 
